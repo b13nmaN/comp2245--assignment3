@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let squares = board.children;
 
-  //initialize an empty array to keep track of the state of the game 
+  //initialize an empty array to keep track of the state of the game
   //after each move
-  let gameStatus = [];
-
+  let gameStatus = new Array(9).fill("");
+  let currentPlayer = "X";
 
   console.log("This is the board", squares);
 
@@ -16,32 +16,74 @@ document.addEventListener("DOMContentLoaded", function () {
     squares[i].classList.add("square");
     squares[i].addEventListener("mouseover", function () {
       this.classList.add("hover");
-    })
+    });
     squares[i].addEventListener("mouseout", function () {
       this.classList.remove("hover");
-    })
-  }
-
-  //Add an X or O to a square when clicked
-  for (let i = 0; i < squares.length; i++) {
-    squares[i].addEventListener("click", function () {
-      if (this.textContent === "") {
-        // add class square.X
-        this.classList.add("X");
-        this.textContent = "X";
-        console.log("This is the game status", gameStatus);
-        //append move to array
-        gameStatus.push("X");
-      } else if (this.textContent === "X") {
-        // add class square.O
-        this.classList.add("O");
-        this.textContent = "O";
-        //append move to array
-        gameStatus.push("O");
-      } else {
-        this.textContent = "";
-      }
     });
   }
 
+  // Add an X or O to a square when clicked
+  for (let i = 0; i < squares.length; i++) {
+    squares[i].addEventListener("click", function () {
+      if (!gameStatus[i]) {
+        this.classList.add(currentPlayer);
+        this.textContent = currentPlayer;
+        gameStatus[i] = currentPlayer;
+        currentPlayer = currentPlayer === "X" ? "O" : "X"; // Toggle between X and O
+      }
+      checkWinner();
+    });
+  }
+
+  //check for a winner
+  // check for a winner
+
+  function checkWinner() {
+    let winner = null;
+
+    // Check rows
+    for (let i = 0; i < gameStatus.length; i += 3) {
+      if (
+        gameStatus[i] &&
+        gameStatus[i] === gameStatus[i + 1] &&
+        gameStatus[i] === gameStatus[i + 2]
+      ) {
+        winner = gameStatus[i];
+        break; // Add a break to stop checking once a winner is found
+      }
+    }
+
+    // Check columns
+    for (let i = 0; i < 3; i++) {
+      if (
+        gameStatus[i] &&
+        gameStatus[i] === gameStatus[i + 3] &&
+        gameStatus[i] === gameStatus[i + 6]
+      ) {
+        winner = gameStatus[i];
+        break; // Add a break to stop checking once a winner is found
+      }
+    }
+
+    // Check diagonals
+    if (
+      gameStatus[0] &&
+      gameStatus[0] === gameStatus[4] &&
+      gameStatus[0] === gameStatus[8]
+    ) {
+      winner = gameStatus[0];
+    } else if (
+      gameStatus[2] &&
+      gameStatus[2] === gameStatus[4] &&
+      gameStatus[2] === gameStatus[6]
+    ) {
+      winner = gameStatus[2];
+    }
+
+    if (winner) {
+      const statusDiv = document.getElementById("status");
+      statusDiv.textContent = `Player ${winner} is the winner!`;
+      statusDiv.classList.add("you-won");
+    }
+  }
 });
