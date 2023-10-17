@@ -14,7 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
   //add className = square to all squares inside the board
   for (let i = 0; i < squares.length; i++) {
     squares[i].classList.add("square");
-
+    squares[i].addEventListener("mouseover", function () {
+      this.classList.add("hover");
+    })
+    squares[i].addEventListener("mouseout", function () {
+      this.classList.remove("hover");
+    })
   }
 
   //Add an X or O to a square when clicked
