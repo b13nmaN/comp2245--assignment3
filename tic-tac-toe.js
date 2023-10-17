@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Add an X or O to a square when clicked
-  // This logic prevents the user from clicking on an already filled square
+  // Add an X or O to a square when clicked. This logic prevents the
+  // user from clicking on an already filled square.
   for (let i = 0; i < squares.length; i++) {
     squares[i].addEventListener("click", function () {
       if (!gameStatus[i]) {
@@ -37,8 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   //check for a winner
-  // check for a winner
-
   function checkWinner() {
     let winner = null;
 
