@@ -86,4 +86,23 @@ document.addEventListener("DOMContentLoaded", function () {
       statusDiv.classList.add("you-won");
     }
   }
+
+  // Reset the game
+  function restartGame() {
+    let resetButton = document.getElementsByClassName("btn")[0];
+    resetButton.addEventListener("click", function () {
+      gameStatus = new Array(9).fill("");
+      currentPlayer = "X";
+      for (let i = 0; i < squares.length; i++) {
+        squares[i].textContent = "";
+        squares[i].classList.remove("hover");
+        const statusDiv = document.getElementById("status");
+        statusDiv.textContent =
+          "Move your mouse over a square and click to play an X or an O.";
+        statusDiv.classList.remove("you-won");
+      }
+    });
+  }
+
+  restartGame();
 });
